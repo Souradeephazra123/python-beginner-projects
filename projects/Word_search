@@ -1,0 +1,41 @@
+import random
+
+def generate_grid(size):
+    alphabet = 'abcdefghijklmnopqrstuvwxyz'
+    grid = [['' for _ in range(size)] for _ in range(size)]
+    for i in range(size):
+        for j in range(size):
+            grid[i][j] = random.choice(alphabet)
+    return grid
+
+def display_grid(grid):
+    for row in grid:
+        print(' '.join(row))
+    print()
+
+def place_words(words, size):
+    grid = generate_grid(size)
+    for word in words:
+        direction = random.choice(['horizontal', 'vertical', 'diagonal'])
+        if direction == 'horizontal':
+            row = random.randint(0, size - 1)
+            col = random.randint(0, size - len(word))
+            for i in range(len(word)):
+                grid[row][col + i] = word[i].upper()
+        elif direction == 'vertical':
+            row = random.randint(0, size - len(word))
+            col = random.randint(0, size - 1)
+            for i in range(len(word)):
+                grid[row + i][col] = word[i].upper()
+        else:
+            row = random.randint(0, size - len(word))
+            col = random.randint(0, size - len(word))
+            for i in range(len(word)):
+                grid[row + i][col + i] = word[i].upper()
+    return grid
+
+if __name__ == "__main__":
+    words = ['python', 'java', 'ruby', 'swift', 'javascript', 'php']
+    size = 10
+    grid = place_words(words, size)
+    display_grid(grid)
